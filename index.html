@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Nanang & Herlina</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #996515;
+            --bg-dark: #0f1115;
+            --bg-card: rgba(22, 26, 33, 0.85);
+            --text-light: #f8f9fa;
+            --text-muted: #c5a880;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+            color: var(--text-light);
+            text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* CONTAINER SETUP (Mobile First Max-Width) */
+        .wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--bg-dark);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+            border-left: 1px solid rgba(212, 175, 55, 0.2);
+            border-right: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 80px;
+        }
+
+        /* MUSIC FLOATING BUTTON */
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: calc(50% - 220px);
+            z-index: 999;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+            border: 2px solid var(--gold-light);
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 500px) {
+            .music-control {
+                right: 20px;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        /* COVER / HERO SECTION */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(15,17,21,0.4) 0%, rgba(15,17,21,0.85) 80%, #0f1115 100%), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+        }
+
+        .sub-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .main-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.6rem;
+            background: linear-gradient(135deg, #fff 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .date-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            color: var(--gold-primary);
+            border-top: 1px solid var(--gold-primary);
+            border-bottom: 1px solid var(--gold-primary);
+            padding: 6px 20px;
+            margin-top: 15px;
+        }
+
+        /* SECTION STYLES */
+        .section {
+            padding: 50px 25px;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            margin: 0 auto 30px auto;
+        }
+
+        /* MEMPELAI SECTION */
+        .profile-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .avatar-frame {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            border: 2px solid var(--gold-primary);
+            padding: 5px;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .groom-bride-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 5px;
+        }
+
+        .parents-info {
+            font-size: 0.85rem;
+            color: #b0b3b8;
+        }
+
+        .ampersand {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: var(--gold-primary);
+            margin: 10px 0;
+        }
+
+        /* COUNTDOWN SECTION */
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .time-unit {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 12px 8px;
+            min-width: 70px;
+        }
+
+        .time-unit span {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            display: block;
+        }
+
+        .time-unit small {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        /* ACARA & LOKASI */
+        .event-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+        }
+
+        .event-type {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--gold-primary);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .event-detail {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            margin-bottom: 8px;
+        }
+
+        .event-detail i {
+            color: var(--gold-primary);
+            margin-right: 8px;
+            width: 16px;
+        }
+
+        /* BUTTON STYLES */
+        .btn-gold {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: #000;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 12px 28px;
+            border-radius: 25px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+            color: #000;
+        }
+
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-wa:hover {
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 20px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- AUDIO PLAYER (TEMPLATE BACKSOUND INSTRUMEN ELEGAN) -->
+        <audio id="bg-music" loop>
+            <source src="musik1.mp3" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+        </audio>
+
+        <!-- FLOATING MUSIC BUTTON -->
+        <div class="music-control" id="music-toggle" onclick="toggleMusic()">
+            <i class="fas fa-music" id="music-icon"></i>
+        </div>
+
+        <!-- HERO / COVER SECTION -->
+        <div class="hero">
+            <p class="sub-title">The Wedding Of</p>
+            <h1 class="main-title">Nanang & Herlina</h1>
+            <p style="font-size: 0.9rem; color: #d1d5db;">Kami Mengundang Anda Untuk Merayakan Pernikahan Kami</p>
+            <div class="date-badge">Rabu, 30 Juni 2027</div>
+        </div>
+
+        <!-- COUNTDOWN SECTION -->
+        <div class="section">
+            <h2 class="section-title">Menghitung Hari</h2>
+            <div class="divider"></div>
+            <div class="countdown-box">
+                <div class="time-unit"><span id="days">00</span><small>Hari</small></div>
+                <div class="time-unit"><span id="hours">00</span><small>Jam</small></div>
+                <div class="time-unit"><span id="minutes">00</span><small>Menit</small></div>
+                <div class="time-unit"><span id="seconds">00</span><small>Detik</small></div>
+            </div>
+        </div>
+
+        <!-- MEMPELAI SECTION -->
+        <div class="section">
+            <h2 class="section-title">Mempelai</h2>
+            <div class="divider"></div>
+            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 25px;">
+                Maha Suci Allah SWT yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon rahmat dan ridho-Nya, kami bermaksud menyelenggarakan pernikahan:
+            </p>
+
+            <!-- GROOM -->
+            <div class="profile-card">
+                <div class="avatar-frame">
+                    <img src="Foto1.jpg?auto=format&fit=crop&w=300&q=80" alt="Nanang Mustofa">
+                </div>
+                <h3 class="groom-bride-name">Nanang Mustofa</h3>
+                <p class="parents-info">Putra dari Bapak Parmuji <br>& Ibu Wartin</p>
+            </div>
+
+            <div class="ampersand">&</div>
+
+            <!-- BRIDE -->
+            <div class="profile-card">
+                <div class="avatar-frame">
+                    <img src="Foto2.jpg?auto=format&fit=crop&w=300&q=80" alt="Herlina Agustin">
+                </div>
+                <h3 class="groom-bride-name">Herlina Agustin</h3>
+                <p class="parents-info">Putri dari Bapak Hamto <br>& Ibu Darti</p>
+            </div>
+        </div>
+
+        <!-- ACARA & LOKASI -->
+        <div class="section">
+            <h2 class="section-title">Rangkaian Acara</h2>
+            <div class="divider"></div>
+
+            <div class="event-card">
+                <div class="event-type">Akad Nikah</div>
+                <div class="event-detail"><i class="far fa-calendar-alt"></i> Rabu, 30 Juni 2027</div>
+                <div class="event-detail"><i class="far fa-clock"></i> 08.00 - 10.00 WIB</div>
+                <div class="event-detail"><i class="fas fa-map-marker-alt"></i> Lokasi Acara Pernikahan</div>
+            </div>
+
+            <div class="event-card">
+                <div class="event-type">Resepsi</div>
+                <div class="event-detail"><i class="far fa-calendar-alt"></i> Rabu, 30 Juni 2027</div>
+                <div class="event-detail"><i class="far fa-clock"></i> 11.00 - Selesai</div>
+                <div class="event-detail"><i class="fas fa-map-marker-alt"></i> Lokasi Acara Pernikahan</div>
+            </div>
+
+            <!-- LINK MAPS -->
+            <a href="https://maps.app.goo.gl/R6KtwSfXQ55yCwEX8" target="_blank" class="btn-gold">
+                <i class="fas fa-location-dot" style="margin-right: 8px;"></i> Petunjuk Lokasi (Google Maps)
+            </a>
+        </div>
+
+        <!-- RSVP WHATSAPP -->
+        <div class="section">
+            <h2 class="section-title">Konfirmasi Kehadiran</h2>
+            <div class="divider"></div>
+            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">
+                Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
+            </p>
+
+            <a href="https://wa.me/6282122363397?text=Halo%20Nanang%20%26%20Herlina,%20saya%20akan%20hadir%20di%20acara%20pernikahan%20Kalian" target="_blank" class="btn-gold btn-wa">
+                <i class="fab fa-whatsapp" style="margin-right: 8px; font-size: 1.1rem;"></i> Konfirmasi Via WhatsApp
+            </a>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Terima kasih atas doa & restu Bapak/Ibu/Saudara/i</p>
+            <p style="color: var(--gold-primary); font-family: 'Cinzel', serif; margin-top: 5px;">Nanang & Herlina</p>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT SCRIPTS -->
+    <script>
+        // COUNTDOWN TIMER (Diset ke 30 Juni 2027)
+        const targetDate = new Date("June 30, 2027 08:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector(".countdown-box").innerHTML = "<p style='color: var(--gold-primary); font-family: Cinzel;'>Acara Telah Berlangsung</p>";
+            }
+        }, 1000);
+
+        // MUSIC PLAY / PAUSE CONTROLLER
+        const audio = document.getElementById("bg-music");
+        const musicIcon = document.getElementById("music-icon");
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.className = "fas fa-music";
+            } else {
+                audio.play();
+                musicIcon.className = "fas fa-pause";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Auto play music pada interaksi pertama user (karena kebijakan browser)
+        document.addEventListener('click', function() {
+            if(!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicIcon.className = "fas fa-pause";
+                }).catch(err => console.log("Autoplay blocked:", err));
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
