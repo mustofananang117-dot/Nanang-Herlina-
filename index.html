@@ -310,14 +310,14 @@
 <body>
 
     <div class="wrapper">
-        <!-- AUDIO PLAYER (TEMPLATE BACKSOUND INSTRUMEN ELEGAN) -->
+        <!-- AUDIO PLAYER -->
         <audio id="bg-music" loop>
             <source src="musik1.mp3" type="audio/mpeg">
             Browser Anda tidak mendukung elemen audio.
         </audio>
 
         <!-- FLOATING MUSIC BUTTON -->
-        <div class="music-control" id="music-toggle" onclick="toggleMusic()">
+        <div class="music-control" id="music-toggle" onclick="toggleMusic(event)">
             <i class="fas fa-music" id="music-icon"></i>
         </div>
 
@@ -445,26 +445,32 @@
         const musicIcon = document.getElementById("music-icon");
         let isPlaying = false;
 
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                musicIcon.className = "fas fa-music";
-            } else {
-                audio.play();
-                musicIcon.className = "fas fa-pause";
-            }
-            isPlaying = !isPlaying;
-        }
-
-        // Auto play music pada interaksi pertama user (karena kebijakan browser)
-        document.addEventListener('click', function() {
-            if(!isPlaying) {
+        function playAudio() {
+            if (!isPlaying) {
                 audio.play().then(() => {
                     isPlaying = true;
                     musicIcon.className = "fas fa-pause";
                 }).catch(err => console.log("Autoplay blocked:", err));
             }
-        }, { once: true });
+        }
+
+        function toggleMusic(event) {
+            // Mencegah trigger event klik global/layar
+            if (event) event.stopPropagation();
+
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.className = "fas fa-music";
+                isPlaying = false;
+            } else {
+                playAudio();
+            }
+        }
+
+        // Otomatis putar musik saat layar disentuh/diklik/uscroll di bagian manapun
+        ['click', 'touchstart', 'scroll'].forEach(eventType => {
+            window.addEventListener(eventType, playAudio, { once: true });
+        });
     </script>
 </body>
 </html>
