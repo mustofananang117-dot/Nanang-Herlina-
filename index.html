@@ -202,6 +202,86 @@
             margin: 10px 0;
         }
 
+        /* IMAGE SLIDER GALLERY STYLES */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            background-color: var(--bg-card);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 17, 21, 0.6);
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--gold-primary);
+            color: #000;
+        }
+
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--gold-primary);
+            width: 22px;
+            border-radius: 10px;
+        }
+
         /* COUNTDOWN SECTION */
         .countdown-box {
             display: flex;
@@ -370,6 +450,28 @@
             </div>
         </div>
 
+        <!-- GALERI FOTO (IMAGE SLIDER) -->
+        <div class="section">
+            <h2 class="section-title">Galeri Momen</h2>
+            <div class="divider"></div>
+
+            <div class="slider-container">
+                <div class="slider-wrapper" id="sliderWrapper">
+                    <div class="slide"><img src="Foto1.jpg" alt="Foto Galeri 1"></div>
+                    <div class="slide"><img src="Foto2.jpg" alt="Foto Galeri 2"></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Foto Galeri 3"></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Foto Galeri 4"></div>
+                </div>
+
+                <!-- Navigasi Panah -->
+                <button class="slider-btn prev-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-btn next-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+
+                <!-- Indikator Titik -->
+                <div class="slider-dots" id="sliderDots"></div>
+            </div>
+        </div>
+
         <!-- ACARA & LOKASI -->
         <div class="section">
             <h2 class="section-title">Rangkaian Acara</h2>
@@ -455,7 +557,6 @@
         }
 
         function toggleMusic(event) {
-            // Mencegah trigger event klik global/layar
             if (event) event.stopPropagation();
 
             if (isPlaying) {
@@ -467,10 +568,48 @@
             }
         }
 
-        // Otomatis putar musik saat layar disentuh/diklik/uscroll di bagian manapun
         ['click', 'touchstart', 'scroll'].forEach(eventType => {
             window.addEventListener(eventType, playAudio, { once: true });
         });
+
+        // IMAGE SLIDER LOGIC
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const sliderWrapper = document.getElementById('sliderWrapper');
+        const dotsContainer = document.getElementById('sliderDots');
+
+        // Generate indikator titik otomatis
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function moveSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        // Auto slide setiap 5 detik
+        setInterval(() => {
+            moveSlide(1);
+        }, 5000);
     </script>
 </body>
 </html>
