@@ -80,7 +80,7 @@
             100% { transform: scale(1); }
         }
 
-        /* COVER / HERO SECTION */
+        /* HERO / COVER SECTION DENGAN SLIDER BACKGROUND */
         .hero {
             height: 100vh;
             position: relative;
@@ -89,8 +89,38 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            background: linear-gradient(180deg, rgba(15,17,21,0.4) 0%, rgba(15,17,21,0.85) 80%, #0f1115 100%), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+        }
+
+        /* BACKGROUND TRANSISI LAYERS */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out, transform 8s ease-out;
+            transform: scale(1.05);
+            z-index: 1;
+        }
+
+        .hero-bg.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* OVERLAY GELAP AGAR TEKS TETAP TERBACA */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(15,17,21,0.5) 0%, rgba(15,17,21,0.85) 80%, #0f1115 100%);
+            z-index: 2;
         }
 
         .hero::before {
@@ -99,6 +129,31 @@
             top: 20px; left: 20px; right: 20px; bottom: 20px;
             border: 1px solid rgba(212, 175, 55, 0.3);
             pointer-events: none;
+            z-index: 3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 4;
+        }
+
+        /* ANIMASI TEKS HALUS (FADE IN + SLIDE UP) */
+        .fade-in-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.7s; }
+        .delay-3 { animation-delay: 1.1s; }
+        .delay-4 { animation-delay: 1.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .sub-title {
@@ -130,6 +185,7 @@
             border-bottom: 1px solid var(--gold-primary);
             padding: 6px 20px;
             margin-top: 15px;
+            display: inline-block;
         }
 
         /* SECTION STYLES */
@@ -401,12 +457,22 @@
             <i class="fas fa-music" id="music-icon"></i>
         </div>
 
-        <!-- HERO / COVER SECTION -->
+        <!-- HERO / COVER SECTION WITH SMOOTH BACKGROUND TRANSITION -->
         <div class="hero">
-            <p class="sub-title">The Wedding Of</p>
-            <h1 class="main-title">Nanang & Herlina</h1>
-            <p style="font-size: 0.9rem; color: #d1d5db;">Kami Mengundang Anda Untuk Merayakan Pernikahan Kami</p>
-            <div class="date-badge">Rabu, 30 Juni 2027</div>
+            <!-- BACKGROUND LAYERS -->
+            <div class="hero-bg active" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80');"></div>
+            <div class="hero-bg" style="background-image: url('Foto1.jpg');"></div>
+            <div class="hero-bg" style="background-image: url('Foto2.jpg');"></div>
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=80');"></div>
+            
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <p class="sub-title fade-in-text delay-1">The Wedding Of</p>
+                <h1 class="main-title fade-in-text delay-2">Nanang & Herlina</h1>
+                <p class="fade-in-text delay-3" style="font-size: 0.9rem; color: #d1d5db;">Kami Mengundang Anda Untuk Merayakan Pernikahan Kami</p>
+                <div class="date-badge fade-in-text delay-4">Rabu, 30 Juni 2027</div>
+            </div>
         </div>
 
         <!-- COUNTDOWN SECTION -->
@@ -519,6 +585,19 @@
 
     <!-- JAVASCRIPT SCRIPTS -->
     <script>
+        // HERO BACKGROUND TRANSITION SLIDER
+        const heroBgs = document.querySelectorAll('.hero-bg');
+        let currentHeroBg = 0;
+
+        function changeHeroBackground() {
+            heroBgs[currentHeroBg].classList.remove('active');
+            currentHeroBg = (currentHeroBg + 1) % heroBgs.length;
+            heroBgs[currentHeroBg].classList.add('active');
+        }
+
+        // Berganti gambar latar setiap 6 detik
+        setInterval(changeHeroBackground, 6000);
+
         // COUNTDOWN TIMER (Diset ke 30 Juni 2027)
         const targetDate = new Date("June 30, 2027 08:00:00").getTime();
 
@@ -572,13 +651,12 @@
             window.addEventListener(eventType, playAudio, { once: true });
         });
 
-        // IMAGE SLIDER LOGIC
+        // IMAGE SLIDER LOGIC (GALERI FOTO)
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const sliderWrapper = document.getElementById('sliderWrapper');
         const dotsContainer = document.getElementById('sliderDots');
 
-        // Generate indikator titik otomatis
         slides.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.classList.add('dot');
@@ -606,7 +684,6 @@
             updateSlider();
         }
 
-        // Auto slide setiap 5 detik
         setInterval(() => {
             moveSlide(1);
         }, 5000);
