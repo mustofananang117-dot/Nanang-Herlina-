@@ -35,6 +35,12 @@
             overflow-x: hidden;
         }
 
+        /* KUNCI SCROLL SAAT SPLASH SCREEN AKTIF */
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+
         /* CONTAINER SETUP (Mobile First Max-Width) */
         .wrapper {
             max-width: 480px;
@@ -46,6 +52,51 @@
             border-left: 1px solid rgba(212, 175, 55, 0.2);
             border-right: 1px solid rgba(212, 175, 55, 0.2);
             padding-bottom: 80px;
+        }
+
+        /* COVER / SPLASH SCREEN OVERLAY */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(15,17,21,0.6) 0%, rgba(15,17,21,0.92) 80%, #0f1115 100%), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+
+        .splash-screen.opened {
+            transform: translate(-50%, -100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .guest-box {
+            background: rgba(22, 26, 33, 0.75);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            width: 100%;
+            max-width: 320px;
+            backdrop-filter: blur(8px);
+        }
+
+        .guest-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            font-weight: 600;
+            margin-top: 5px;
         }
 
         /* MUSIC FLOATING BUTTON */
@@ -92,7 +143,6 @@
             overflow: hidden;
         }
 
-        /* BACKGROUND TRANSISI LAYERS */
         .hero-bg {
             position: absolute;
             top: 0;
@@ -112,7 +162,6 @@
             transform: scale(1);
         }
 
-        /* OVERLAY GELAP AGAR TEKS TETAP TERBACA */
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -128,7 +177,7 @@
             z-index: 4;
         }
 
-        /* ANIMASI TEKS HALUS (FADE IN + SLIDE UP) */
+        /* ANIMASI TEKS HALUS */
         .fade-in-text {
             opacity: 0;
             transform: translateY(20px);
@@ -199,6 +248,40 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
             margin: 0 auto 30px auto;
+        }
+
+        /* QUOTE SECTION */
+        .quote-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .quote-arabic {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .quote-translation {
+            font-size: 0.85rem;
+            color: #d1d5db;
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .quote-surah {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-primary);
+            margin-top: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         /* MEMPELAI SECTION */
@@ -434,7 +517,24 @@
         }
     </style>
 </head>
-<body>
+<body class="no-scroll">
+
+    <!-- SPLASH SCREEN / COVER BUKA UNDANGAN -->
+    <div class="splash-screen" id="splashScreen">
+        <p class="sub-title">The Wedding Of</p>
+        <h1 class="main-title">Nanang & Herlina</h1>
+        
+        <div class="guest-box">
+            <p style="font-size: 0.8rem; color: #b0b3b8; text-transform: uppercase; letter-spacing: 1px;">Kepada Yth. Bpk/Ibu/Saudara/i</p>
+            <h3 class="guest-name" id="guestName">Tamu Undangan</h3>
+        </div>
+
+        <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 10px;">Tanpa Mengurangi Rasa Hormat, Kami Mengundang Anda Untuk Hadir Di Acara Pernikahan Kami.</p>
+
+        <button class="btn-gold" onclick="openInvitation()">
+            <i class="fas fa-envelope-open-text" style="margin-right: 8px;"></i> Buka Undangan
+        </button>
+    </div>
 
     <div class="wrapper">
         <!-- AUDIO PLAYER -->
@@ -448,9 +548,8 @@
             <i class="fas fa-music" id="music-icon"></i>
         </div>
 
-        <!-- HERO / COVER SECTION WITH SMOOTH BACKGROUND TRANSITION -->
+        <!-- HERO / COVER SECTION -->
         <div class="hero">
-            <!-- BACKGROUND LAYERS -->
             <div class="hero-bg active" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80');"></div>
             <div class="hero-bg" style="background-image: url('Foto1.jpg');"></div>
             <div class="hero-bg" style="background-image: url('Foto2.jpg');"></div>
@@ -466,8 +565,19 @@
             </div>
         </div>
 
-        <!-- COUNTDOWN SECTION -->
+        <!-- KUTIPAN / QUOTE SECTION -->
         <div class="section">
+            <div class="quote-card">
+                <i class="fas fa-quote-left" style="color: var(--gold-primary); font-size: 1.5rem; margin-bottom: 15px; opacity: 0.8;"></i>
+                <p class="quote-translation">
+                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+                </p>
+                <div class="quote-surah">(QS. Ar-Rum: 21)</div>
+            </div>
+        </div>
+
+        <!-- COUNTDOWN SECTION -->
+        <div class="section" style="padding-top: 10px;">
             <h2 class="section-title">Menghitung Hari</h2>
             <div class="divider"></div>
             <div class="countdown-box">
@@ -520,11 +630,9 @@
                     <div class="slide"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Foto Galeri 4"></div>
                 </div>
 
-                <!-- Navigasi Panah -->
                 <button class="slider-btn prev-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
                 <button class="slider-btn next-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
 
-                <!-- Indikator Titik -->
                 <div class="slider-dots" id="sliderDots"></div>
             </div>
         </div>
@@ -548,7 +656,6 @@
                 <div class="event-detail"><i class="fas fa-map-marker-alt"></i> Lokasi Acara Pernikahan</div>
             </div>
 
-            <!-- LINK MAPS -->
             <a href="https://maps.app.goo.gl/R6KtwSfXQ55yCwEX8" target="_blank" class="btn-gold">
                 <i class="fas fa-location-dot" style="margin-right: 8px;"></i> Petunjuk Lokasi (Google Maps)
             </a>
@@ -576,6 +683,20 @@
 
     <!-- JAVASCRIPT SCRIPTS -->
     <script>
+        // MENGAMBIL NAMA TAMU DARI URL PARAMETER (contoh: index.html?to=Budi+Santoso)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guest = urlParams.get('to');
+        if (guest) {
+            document.getElementById('guestName').innerText = guest;
+        }
+
+        // BUKA UNDANGAN & OTOMATIS PUTAR MUSIK
+        function openInvitation() {
+            document.getElementById('splashScreen').classList.add('opened');
+            document.body.classList.remove('no-scroll');
+            playAudio();
+        }
+
         // HERO BACKGROUND TRANSITION SLIDER
         const heroBgs = document.querySelectorAll('.hero-bg');
         let currentHeroBg = 0;
@@ -586,7 +707,6 @@
             heroBgs[currentHeroBg].classList.add('active');
         }
 
-        // Berganti gambar latar setiap 6 detik
         setInterval(changeHeroBackground, 6000);
 
         // COUNTDOWN TIMER (Diset ke 30 Juni 2027)
@@ -637,10 +757,6 @@
                 playAudio();
             }
         }
-
-        ['click', 'touchstart', 'scroll'].forEach(eventType => {
-            window.addEventListener(eventType, playAudio, { once: true });
-        });
 
         // IMAGE SLIDER LOGIC (GALERI FOTO)
         let currentSlide = 0;
